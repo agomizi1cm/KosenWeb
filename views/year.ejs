@@ -1,12 +1,23 @@
 <!DOCTYPE html>
+<html lang="ja">
 <html>
     <head>
         <title><%= title %></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <h1>年間予定表</h1>
+
+        <div id="calendar-app">
+          <div id="calendar-main">
+              <h2><span id="current-year"></span>年度 授業・行事計画</h2>
+              <div id="calendar-container"></div>
+          </div>
+      </div>
+  
+      <script src="/script.js"></script>
         <a href="../">戻る</a>
     </body>
 </html>

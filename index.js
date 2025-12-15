@@ -3,7 +3,11 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
+const events = require('./data/year.json');
+
 app.set('view engine', 'ejs');
+
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.render('index', { title: '高専生活特化アプリ' });
