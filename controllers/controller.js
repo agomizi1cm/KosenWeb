@@ -1,6 +1,10 @@
 const { render } = require('ejs');
 const subjects = require('../models/subjects');
 
+// --- 【追加】PDFスクレイピングに必要なモジュール ---
+const axios = require('axios');
+const cheerio = require('cheerio');
+
 function getMonth() {
     const now = new Date();
     return now.getMonth() + 1; // JavaScriptの月は0から始まるため、1を加算
