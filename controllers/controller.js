@@ -14,6 +14,10 @@ exports.renderYearPage = (req, res) => {
     res.render('year', { title: '年間予定表' });
 };
 
+exports.renderTestSchedulePage = (req,res) => {
+    res.render('test_schedule',{title: 'テスト日程表'});
+};
+
 exports.renderWeekPage = (req, res) => {
     const weekSubjectsData = subjects.weekSubjectsData;
     const subjectsList = subjects.subjects;
