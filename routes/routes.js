@@ -6,5 +6,5 @@ router.get('/', controller.renderHomePage);
 router.get('/year', controller.renderYearPage);
 router.get('/week', controller.renderWeekPage);
 router.get('/subjects/:code', controller.renderSubjectPage);
-
+router.get('/TestSchedule', controller.renderTestSchedulePage);
 module.exports = router;
