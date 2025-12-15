@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><%= title %></title>
+        <title><%= title %>｜高専生活特化アプリ</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./week.css">
     </head>
     <body>
         <h1>授業時間割</h1>
+        <h2><%= month %>月</h2>
+        <p>
+            <button>前週</button>
+            <button>次週</button>
+        </p>
+
+        <table border="1" cellpadding="5" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <td style="text-align: center; width: 2em;">コマ</td>
+                    <td class="cell" style="height: 1em;">日</td>
+                    <td class="cell" style="height: 1em;">月</td>
+                    <td class="cell" style="height: 1em;">火</td>
+                    <td class="cell" style="height: 1em;">水</td>
+                    <td class="cell" style="height: 1em;">木</td>
+                    <td class="cell" style="height: 1em;">金</td>
+                    <td class="cell" style="height: 1em;">土</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% weekSubjectsData.forEach(weekSubject => { %>
+                    <tr>
+                        <td style="text-align: center;"><%= weekSubject.koma %></td>
+                        <td></td>
+                        <% weekSubject.subjects.forEach(subject => { %>
+                            <td class="cell"><a href="../subjects/<%= subject.code %>" ><strong><%= subject.code !== "None" ? getSubjectNameByCode(subject.code) : "" %></strong><br>
+                                <%= subject.code !== "None" ? getSubjectTeacherByCode(subject.code) : "" %></a></td>
+                        <% }); %>
+                        <td></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
         <a href="../">戻る</a>
     </body>
 </html>
