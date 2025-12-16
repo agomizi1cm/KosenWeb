@@ -1,3 +1,6 @@
 node_modules/
 node.exe
 npm.cmd
+.vscode/
+.DS_Store
+.env

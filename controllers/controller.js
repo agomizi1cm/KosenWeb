@@ -1,5 +1,7 @@
 const { render } = require('ejs');
 const subjects = require('../models/subjects');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 function getMonth() {
     const now = new Date();
@@ -44,4 +46,22 @@ exports.renderSubjectPage = (req, res) => {
         name: subjects.getSubjectNameByCode(subjectCode),
         teacher: subjects.getSubjectTeacherByCode(subjectCode)
     });
+};
+
+exports.renderSchedulePage = async (req, res) => {
+    const testScheduleUrl = 'https://www.gunma-ct.ac.jp/forstudent/event/';
+    try {
+        const response = await axios.get(testScheduleUrl);
+        const $ = cheerio.load(response.data);
+        const url = $("ul.list_link li a:contains('試験日程表')").first().attr('href');
+        if (url) {
+            res.redirect(url);
+        } else {
+            res.status(404).send('試験時間割のURLが見つかりませんでした。');
+        }
+    } catch (error) {
+        console.error('Error fetching test schedule:', error);
+        res.status(500).send('試験時間割の取得中にエラーが発生しました。');
+        return;
+    }
 };
