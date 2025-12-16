@@ -25,5 +25,5 @@ jobs:
             git fetch --all
             git checkout release
             git pull origin release
-            npm install
+            npm install --production
             pm2 reload kosen-web
