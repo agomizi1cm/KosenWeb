@@ -1,7 +1,3 @@
-// ====================================
-// 年間予定データとカレンダー生成ロジック
-// ====================================
-
 // 年間予定データ
 // type:
 //  holiday     … 休日
@@ -25,7 +21,6 @@ const schedules = [
 
     //7月
     { dateFrom: "2025-07-24", dateTo: "2025-07-30", type: "exam", title: "前期定期試験" },
-
   
     // 8月
     { date: "2025-08-01", type: "major-event", title: "夏季休業開始" },
@@ -46,14 +41,9 @@ const schedules = [
     // 3月
     { date: "2026-03-20", type: "major-event", title: "卒業式" },
     { date: "2026-03-22", type: "holiday", title: "春分の日" }
-  ];
-  
-  /**
-   * 指定した日付の予定情報を取得する
-   * @param {string} dateString YYYY-MM-DD
-   * @returns {object} { markType, title }
-   */
-  function getScheduleInfo(dateString) {
+];
+
+const getScheduleInfo = (dateString) => {
     const dateObj = new Date(dateString);
   
     let markType = "class-day";
@@ -84,13 +74,9 @@ const schedules = [
       markType,
       title: titles.join("<br>")
     };
-  }
-  
-  /**
-   * 指定した年度の年間カレンダーを生成する
-   * @param {number} year
-   */
-  function generateYearCalendar(year) {
+};
+
+const generateYearCalendar = (year) => {
     const container = document.getElementById("calendar-container");
     const yearDisplay = document.getElementById("current-year");
   
@@ -145,10 +131,4 @@ const schedules = [
       monthDiv.appendChild(table);
       container.appendChild(monthDiv);
     }
-  }
-  
-  // ページ読み込み後に実行
-  document.addEventListener("DOMContentLoaded", () => {
-    generateYearCalendar(2025);
-  });
-  
+};
