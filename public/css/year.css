@@ -1,0 +1,140 @@
+/* ====================================
+   1. CSS（スタイルシート）
+   ==================================== */
+
+   body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+/* アプリ全体のコンテナ */
+#calendar-app {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* メインカレンダー領域 */
+#calendar-main {
+    width: 100%;
+}
+
+#current-year {
+    font-size: 2em;
+    color: #333;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* 月ごとのカレンダー配置 */
+#calendar-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.month-calendar {
+    width: 280px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.month-calendar h3 {
+    background-color: #0056b3;
+    color: white;
+    padding: 8px 10px;
+    margin: 0;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+/* カレンダーテーブル */
+.month-calendar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.month-calendar th,
+.month-calendar td {
+    text-align: center;
+    padding: 0;
+    height: 60px;
+    vertical-align: top;
+    border: 1px solid #eee;
+    font-size: 10px;
+    position: relative;
+}
+
+/* 曜日ヘッダ */
+.month-calendar th {
+    font-size: 11px;
+    background-color: #f0f0f0;
+    font-weight: bold;
+    color: #555;
+}
+
+/* 日付セル */
+.day-cell {
+    cursor: default;
+}
+
+.day-number {
+    font-weight: bold;
+    font-size: 14px;
+    padding-top: 5px;
+    text-align: right;
+    padding-right: 5px;
+}
+
+/* 日曜・土曜 */
+.day-cell:nth-child(1) .day-number {
+    color: red;
+}
+.day-cell:nth-child(7) .day-number {
+    color: blue;
+}
+
+/* ===== 予定の種類ごとの色 ===== */
+
+/* 休日 */
+.holiday {
+    background-color: #f7a8a8;
+}
+
+/* 試験 */
+.exam {
+    background-color: #ccc;
+}
+
+/* 通常授業日 */
+.class-day {
+    background-color: white;
+}
+
+/* 予定表示 */
+.schedule-entry {
+    font-size: 10px;
+    color: #333;
+    text-align: left;
+    padding: 2px 5px;
+    line-height: 1.2;
+    white-space: normal;
+    word-break: break-all;
+    max-height: 35px;
+    overflow: hidden;
+}
+
+/* 重要イベント */
+.major-event .schedule-entry {
+    font-weight: bold;
+    color: #0056b3;
+}
