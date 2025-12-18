@@ -1,4 +1,3 @@
-const { render } = require('ejs');
 const subjects = require('../models/subjects');
 const axios = require('axios');
 const cheerio = require('cheerio');
