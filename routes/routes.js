@@ -7,4 +7,5 @@ router.get('/year', controller.renderYearPage);
 router.get('/week', controller.renderWeekPage);
 router.get('/subjects/:code', controller.renderSubjectPage);
 router.get('/schedule', controller.renderSchedulePage);
+router.get('/api/latest-schedule-pdf', controller.redirectLatestSchedulePdf);
 module.exports = router;

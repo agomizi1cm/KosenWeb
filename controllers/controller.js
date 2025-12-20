@@ -11,6 +11,49 @@ function getMonth() {
 }
 
 // --------------------------------------------------
+// 【追加】最新の年間予定（授業・行事計画）PDFへリダイレクト
+// --------------------------------------------------
+exports.redirectLatestSchedulePdf = async (req, res) => {
+    const targetUrl = 'https://www.gunma-ct.ac.jp/forstudent/event/';
+    let pdfUrl = null;
+
+    try {
+        const response = await axios.get(targetUrl, { timeout: 10000 });
+        const $ = cheerio.load(response.data);
+
+        $('a').each((i, element) => {
+            const text = $(element).text();
+            const href = $(element).attr('href');
+
+            if (
+                href &&
+                href.endsWith('.pdf') &&
+                (text.includes('授業') || text.includes('行事'))
+            ) {
+                if (href.startsWith('/')) {
+                    pdfUrl = 'https://www.gunma-ct.ac.jp' + href;
+                } else if (href.startsWith('http')) {
+                    pdfUrl = href;
+                }
+                return false; // 最初に見つけたPDFを採用
+            }
+        });
+
+        if (!pdfUrl) {
+            // 見つからなければ公式ページへ
+            return res.redirect(targetUrl);
+        }
+
+        return res.redirect(pdfUrl);
+
+    } catch (error) {
+        console.error('年間予定PDF取得エラー:', error.message);
+        return res.redirect(targetUrl);
+    }
+};
+
+
+// --------------------------------------------------
 // 【追加】テスト日程PDFの情報を取得してレンダリングする関数
 // --------------------------------------------------
 exports.renderSchedulePage = async (req, res) => {
