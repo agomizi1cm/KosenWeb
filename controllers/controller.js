@@ -63,8 +63,9 @@ exports.renderSchedulePage = async (req, res) => {
         res.status(500).send('試験時間割の取得中にエラーが発生しました。');
         return;
     }
+};
 
 exports.renderLibraryPage = (req, res) => {
-     res.render('library', { title: '群馬高専図書館opac' });
-}
+    const opacUrl = 'https://libopac-c.kosen-k.go.jp/webopac14/cattab.do';
+    res.redirect(opacUrl);
 };
