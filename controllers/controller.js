@@ -64,3 +64,8 @@ exports.renderSchedulePage = async (req, res) => {
         return;
     }
 };
+
+exports.renderLibraryPage = (req, res) => {
+    const opacUrl = 'https://libopac-c.kosen-k.go.jp/webopac14/cattab.do';
+    res.redirect(opacUrl);
+};
