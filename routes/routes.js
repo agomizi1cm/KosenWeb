@@ -7,5 +7,6 @@ router.get('/year', controller.renderYearPage);
 router.get('/week', controller.renderWeekPage);
 router.get('/subjects/:code', controller.renderSubjectPage);
 router.get('/test_schedule', controller.renderSchedulePage);
+router.get('/library', controller.renderSchedulePage);
 
 module.exports = router;
