@@ -1,12 +1,9 @@
 body{
     margin:0;
     padding:0;
-}
-
+    
 /*背景画像を設定*/
-
-body{
-    background-image:url('/public/home_background.jpg') ;
+    background-image:url('/home_background.jpg') ;
 
     background-repeat: no-repeat ;/*繰り返しを禁止*/
 
