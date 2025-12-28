@@ -69,3 +69,21 @@ exports.renderLibraryPage = (req, res) => {
     const opacUrl = 'https://libopac-c.kosen-k.go.jp/webopac14/cattab.do';
     res.redirect(opacUrl);
 };
+
+exports.redirectToYearPage = async (req, res) => {
+    const yearPageUrl = 'https://www.gunma-ct.ac.jp/forstudent/event/';
+    try {
+        const response = await axios.get(yearPageUrl);
+        const $ = cheerio.load(response.data);
+        const url = $("ul.list_link li a:contains('授業・行事計画')").first().attr('href');
+        if (url) {
+            res.redirect(url);
+        } else {
+            res.status(404).send('授業・行事計画のURLが見つかりませんでした。');
+        }
+    } catch (error) {
+        console.error('Error fetching year page:', error);
+        res.status(500).send('授業・行事計画の取得中にエラーが発生しました。');
+        return;
+    }
+};
