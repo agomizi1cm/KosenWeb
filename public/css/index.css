@@ -1,0 +1,26 @@
+body{
+    margin:0;
+    padding:0;
+}
+
+/*背景画像を設定*/
+
+body{
+    background-image:url('/images/home_background.jpg');
+
+    background-repeat: no-repeat ;/*繰り返しを禁止*/
+
+    background-position: center center;/*画像をセンターに配置*/
+
+    background-size: cover;/*画像が全画面表示になるように拡大と縮小を実行*/
+
+    background-attachment: fixed;/*スクロールによる背景のずれを防止*/
+
+    background-color: forestgreen;
+
+    /*コンテンツの可視性を考慮するスタイル*/
+    color: white;
+    min-height: 100vh;
+    text-align: center;
+    padding: 50px; 
+}
