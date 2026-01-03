@@ -8,39 +8,26 @@
     </head>
     <body>
         <h1>授業時間割</h1>
-        <h2><%= month %>月</h2>
+        <h2 id="month"></h2>
         <p>
-            <button>前週</button>
-            <button>次週</button>
+            <button id="prevweek">前週</button>
+            <button id="nextweek">次週</button>
         </p>
 
         <table border="1" cellpadding="5" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <td style="text-align: center; width: 2em;">コマ</td>
-                    <td class="cell" style="height: 1em;">日</td>
-                    <td class="cell" style="height: 1em;">月</td>
-                    <td class="cell" style="height: 1em;">火</td>
-                    <td class="cell" style="height: 1em;">水</td>
-                    <td class="cell" style="height: 1em;">木</td>
-                    <td class="cell" style="height: 1em;">金</td>
-                    <td class="cell" style="height: 1em;">土</td>
-                </tr>
+            <thead id="weekScheduleHead">
+                <th><span class="day-num" id="d0"></span>(日)</th>
+                <th><span class="day-num" id="d1"></span>(月)</th>
+                <th><span class="day-num" id="d2"></span>(火)</th>
+                <th><span class="day-num" id="d3"></span>(水)</th>
+                <th><span class="day-num" id="d4"></span>(木)</th>
+                <th><span class="day-num" id="d5"></span>(金)</th>
+                <th><span class="day-num" id="d6"></span>(土)</th>
             </thead>
-            <tbody>
-                <% weekSubjectsData.forEach(weekSubject => { %>
-                    <tr>
-                        <td style="text-align: center;"><%= weekSubject.koma %></td>
-                        <td></td>
-                        <% weekSubject.subjects.forEach(subject => { %>
-                            <td class="cell"><a href="../subjects/<%= subject.code %>" ><strong><%= subject.code !== "None" ? getSubjectNameByCode(subject.code) : "" %></strong><br>
-                                <%= subject.code !== "None" ? getSubjectTeacherByCode(subject.code) : "" %></a></td>
-                        <% }); %>
-                        <td></td>
-                    </tr>
-                <% }); %>
-            </tbody>
+            <tbody id="weekScheduleBody"></tbody>
         </table>
+        <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script>
+        <script src="/js/week.js"></script>
         <a href="../">戻る</a>
     </body>
 </html>

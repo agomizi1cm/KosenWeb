@@ -3,3 +3,21 @@
     height: 70px;
     text-align: center;
 }
+
+.day {
+    height: 1em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.today {
+    background-color: #ffeb3b;
+}
+
+.elective {
+    background-color: #b4f6ff;
+}
+
+.rescheduled {
+    background-color: #93ffa5;
+}
