@@ -30,11 +30,6 @@ const subjectList = {
     "4J037": {name: "実用英語演習Ⅱ", teacher: "熊谷[健]", isElective: false},
 };
 
-const rescheduleClasses = {
-    '2025-12-22': {koma: 4, subjectCode: 'Free'},
-    '2025-12-23': {koma: 1, subjectCode: '4J024'},
-};
-
 const getSubjectNameByCode = (code) => {
     const data = subjectList[code];
     return data ? data.name : '科目不明';
@@ -51,21 +46,28 @@ const getSubjectIsElectiveByCode = (code) => {
 };
 
 // 日曜日の日付:Dateを受け取り、その週の授業コードリストを返す関数
-const getWeekSubjectCodeList = (sunday) => {
-    let weekSubjectCodeList = JSON.parse(JSON.stringify(weekSubjectsData));
-
+const getWeekSubjectCodeList = (sunday, rescheduleClasses) => {
     if (!sunday || sunday.getDay() !== 0) {
         throw new Error('The provided date is not a Sunday.');
     }
+
+    // 基本の時間割データをコピー
+    const weekSubjectCodeList = structuredClone(weekSubjectsData);
 
     // 振替授業の適用
     for (let day = 1; day <= 6; day++) {
         const date = addDays(sunday, day);
         const dateString = format(date, 'yyyy-MM-dd');
 
-        if (rescheduleClasses[dateString]) {
-            const { koma, subjectCode } = rescheduleClasses[dateString];
-            weekSubjectCodeList[koma - 1][day - 1] = {code: subjectCode, isRescheduled: true};
+        const dailyChanges = rescheduleClasses[dateString];
+        if (dailyChanges && Array.isArray(dailyChanges)) {
+            dailyChanges.forEach(({koma, subjectCode}) => {
+                const komaIndex = koma - 1;
+                const dayIndex = day - 1;
+                if (weekSubjectCodeList[komaIndex] && weekSubjectCodeList[komaIndex][dayIndex]) {
+                    weekSubjectCodeList[komaIndex][dayIndex] = {code: subjectCode, isRescheduled: true};
+                }
+            });
         }
     }
 
