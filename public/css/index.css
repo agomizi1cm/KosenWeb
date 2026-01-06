@@ -6,7 +6,7 @@ body{
 /*背景画像を設定*/
 
 body{
-    background-image:url('/images/home_background.jpg');
+    background:linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0) 100%),url('/images/home_background.jpg');
 
     background-repeat: no-repeat ;/*繰り返しを禁止*/
 
@@ -19,8 +19,88 @@ body{
     background-color: forestgreen;
 
     /*コンテンツの可視性を考慮するスタイル*/
-    color: white;
+    color: #333;
     min-height: 100vh;
     text-align: center;
     padding: 50px; 
 }
+
+/*画面上部のヘッダーデザイン*/
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px); 
+    margin-bottom: 40px; 
+}
+
+/*ヘッダー内のアイコン画像の設定*/
+.header-icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 15px;
+    cursor: pointer;
+    object-fit: contain;
+}
+
+/*ロゴの文字設定*/
+.logo-text {
+    font-size: 2.0rem;
+    font-weight: bold;
+    color:#333;
+}
+
+/*グリッドのレイアウト*/
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);/*アイコンは均等に配置*/
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/*各機能の選択アイコンの基本設定*/
+.menu-card {
+    /*アイコンの形・色・影の設定*/
+    display: block; 
+    background-color: rgba(255, 255, 255, 0.6); 
+    border-radius: 20px; 
+    aspect-ratio: 1 / 1; 
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    
+    /*アイコンの中身を中央揃えに設定*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.3s, background-color 0.3s; 
+    padding: 10px;
+}
+/*アイコン画像の設定*/
+.card-icon {
+    width: 60%;
+    height: auto;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+/*アイコン内のテキスト設定*/
+.card-content{
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/*マウスカーソルで選択時のアイコン挙動*/
+.menu-card:hover {
+    transform: scale(1.05); /*アイコンのサイズを拡大*/
+    background-color: rgba(255, 255, 255, 0.9); 
+    cursor: pointer;
+}
+

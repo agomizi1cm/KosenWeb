@@ -8,18 +8,36 @@
 
     </head>
     <body>
-        <h1>群馬高専生活特化アプリ</h1>
-        <div class="feature">
-            <a href="/year">年間予定表を見る</a>
-        </div>
-        <div class="feature">
-            <a href="/week">授業時間割を見る</a>
-        </div>
-        <div class="feature">
-            <a href="/test_schedule">テスト日程表を見る</a>
-        </div>
-        <div class="feature">
-            <a href="/library">群馬高専図書館opacを開く</a>
-        </div>
+        <header class = "site-header">
+            <div class="logo"> 
+                <span class="logo-text">高専Web</span>
+            </div>
+            <div class=" user-menu">
+              <img src="/images/icon_mail.png" alt="お知らせ" class="header-icon">
+              <img src="/images/icon_user.png" alt="ユーザー" class="header-icon">
+            </div>
+        </header>
+
+        <main class="menu-container">
+            <a href="/year" class="menu-card">
+                <img src="/images/icon_year.png" alt="年間予定表" class="card-icon">
+                <div class="card-content">年間予定表</div>
+            </a>
+        
+            <a href="/week" class="menu-card">
+               <img src="/images/icon_week.png" alt="授業時間割" class="card-icon">
+               <div class="card-content">授業時間割</div>
+            </a>
+
+            <a href="/test_schedule" class="menu-card">
+                <img src="/images/icon_test.png" alt="テスト日程表" class="card-icon">
+                <div class="card-content">テスト日程表</div>
+            </a>
+        
+            <a href="/library" class="menu-card">
+                <img src="/images/icon_library.png" alt="図書館OPAC" class="card-icon">
+                <div class="card-content">図書館OPAC</div>
+            </a>
+        </main>
     </body>
 </html>
