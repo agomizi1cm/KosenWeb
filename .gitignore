@@ -4,3 +4,4 @@ npm.cmd
 .vscode/
 .DS_Store
 .env
+kosenweb.db
