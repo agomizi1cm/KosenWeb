@@ -110,6 +110,7 @@ function generateYearCalendar(year) {
     monthDiv.innerHTML = `<h3>${month}月</h3>`;
 
     const table = document.createElement("table");
+    table.style.tableLayout = "fixed";
     table.innerHTML = `
       <thead>
         <tr>

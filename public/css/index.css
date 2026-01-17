@@ -16,7 +16,7 @@ body{
 
     background-attachment: fixed;/*スクロールによる背景のずれを防止*/
 
-    background-color: forestgreen;
+    background-color: white;/*背景画像が読み込まれない場合の背景色*/
 
     /*コンテンツの可視性を考慮するスタイル*/
     color: #333;
@@ -56,7 +56,7 @@ body{
 /*グリッドのレイアウト*/
 .menu-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);/*アイコンは均等に配置*/
+    grid-template-columns: repeat(2, 1fr);/*アイコンは均等に配置*/
     gap: 20px;
     max-width: 800px;
     margin: 0 auto;
