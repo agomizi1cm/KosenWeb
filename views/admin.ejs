@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %>｜高専生活特化アプリ</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/admin.css">
+    </head>
+    <body>
+        <h1>管理者ページ</h1>
+        <p>ここは管理者専用ページです。</p>
+
+        <div>
+            <h2>授業変更の追加</h2>
+            <form id="addClassChangeForm">
+                <input type="date" id="date" required>
+                <input type="number" id="koma" placeholder="コマ" required min="1" max="5">
+                <input type="text" id="subjectCode" placeholder="科目コード" required>
+                <button type="submit">追加</button>
+            </form>
+            <script src="/js/add_class_change.js" defer></script>
+        </div>
+
+        <div>
+            <h2>授業変更の削除</h2>
+            <form id="deleteClassChangeForm">
+                <input type="date" id="deleteDate" required>
+                <input type="number" id="deleteKoma" placeholder="コマ" required min="1" max="5">
+                <button type="submit">削除</button>
+            </form>
+            <script src="/js/delete_class_change.js" defer></script>
+        </div>
+
+        <p><a href="../">戻る</a></p>
+    </body>
+</html>

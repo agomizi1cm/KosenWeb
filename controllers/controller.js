@@ -1,6 +1,8 @@
 const subjects = require('../models/subjects');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { format, addDays } = require('date-fns');
+const db = require('../data/db');
 
 // home page
 exports.renderHomePage = (req, res) => {
@@ -21,20 +23,43 @@ exports.renderWeekPage = (req, res) => {
 
 // API to get week schedule data in JSON
 exports.getWeekScheduleData = (req, res) => {
-    const sundayParam = req.query.sunday;
-    const getWeekSubjectCodeList = subjects.getWeekSubjectCodeList;
-    if (!sundayParam) {
-        return res.status(400).json({ error: 'Missing sunday parameter' });
+    try {
+        const sundayParam = req.query.sunday;
+
+        if (!sundayParam) {
+            return res.status(400).json({ error: 'Missing sunday parameter' });
+        }
+        const startDate = new Date(sundayParam);
+        const endDate = addDays(startDate, 6);
+
+        if (isNaN(startDate.getTime())) {
+            return res.status(400).json({ error: 'Invalid date format for sunday parameter' });
+        }
+        if (startDate.getDay() !== 0) {
+            return res.status(400).json({ error: 'The sunday parameter must be a Sunday date' });
+        }
+
+        const rows = db.prepare(`
+            SELECT date, koma, subject_code 
+            FROM rescheduled_classes
+            WHERE date BETWEEN ? AND ?
+            ORDER BY date, koma
+        `).all(format(startDate, 'yyyy-MM-dd'), format(endDate, 'yyyy-MM-dd'));
+
+        const rescheduleClasses = rows.reduce((acc, row) => {
+            if (!acc[row.date]) acc[row.date] = [];
+            acc[row.date].push({ koma: row.koma, subjectCode: row.subject_code });
+            return acc;
+        }, {});
+
+        const getWeekSubjectCodeList = subjects.getWeekSubjectCodeList;
+        
+        const weekSchedule = getWeekSubjectCodeList(startDate, rescheduleClasses);
+        res.json({ weekSchedule: weekSchedule });
+    } catch (error) {
+        console.error('Error fetching week schedule data:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-    const sundayDate = new Date(sundayParam);
-    if (isNaN(sundayDate.getTime())) {
-        return res.status(400).json({ error: 'Invalid date format for sunday parameter' });
-    }
-    if (sundayDate.getDay() !== 0) {
-        return res.status(400).json({ error: 'The sunday parameter must be a Sunday date' });
-    }
-    const weekSchedule = getWeekSubjectCodeList(sundayDate);
-    res.json({ weekSchedule: weekSchedule });
 };
 
 // API to get subject data in JSON
@@ -107,3 +132,54 @@ exports.redirectToYearSchedulePage = async (req, res) => {
         return;
     }
 };
+
+// admin page
+exports.renderAdminPage = (req, res) => {
+    res.render('admin', { title: '管理者ページ' });
+}
+
+// API to add reschedule class
+exports.addRescheduleClass = (req, res) => {
+    try {
+        const { date, koma, subjectCode } = req.body;
+        if (!date || !koma || !subjectCode) {
+            return res.status(400).json({ error: 'Missing required parameters' });
+        }
+
+        const selectedDate = new Date(date);
+        const dayOfWeek = selectedDate.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            return res.status(400).json({ error: '授業変更は平日にのみ設定可能です。' });
+        }
+
+        const checkStmt = db.prepare('SELECT * FROM rescheduled_classes WHERE date = ? AND koma = ?');
+        const existing = checkStmt.get(date, koma);
+        if (existing) {
+            return res.status(409).json({ error: '指定された日時には既に授業変更が存在します。' });
+        }
+
+        const stmt = db.prepare('INSERT INTO rescheduled_classes (date, koma, subject_code) VALUES (?, ?, ?)');
+        stmt.run(date, koma, subjectCode);
+
+        res.status(200).json({ message: '授業変更が正常に追加されました。' });
+    } catch (error) {
+        console.error('Error adding reschedule class:', error);
+        res.status(500).json({ error: '授業変更の追加中にエラーが発生しました。' });
+    }
+}
+
+// API to delete reschedule class
+exports.deleteRescheduleClass = (req, res) => {
+    try {
+        const { date, koma } = req.body;
+        if (!date || !koma) {
+            return res.status(400).json({ error: 'Missing required parameters' });
+        }
+        const stmt = db.prepare('DELETE FROM rescheduled_classes WHERE date = ? AND koma = ?');
+        stmt.run(date, koma);
+        res.status(200).json({ message: '授業変更が正常に削除されました。' });
+    } catch (error) {
+        console.error('Error deleting reschedule class:', error);
+        res.status(500).json({ error: '授業変更の削除中にエラーが発生しました。' });
+    }
+}
