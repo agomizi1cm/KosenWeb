@@ -12,6 +12,7 @@ router.get('/test_schedule', controller.renderSchedulePage);
 router.get('/library', controller.redirectToLibraryPage);
 router.get('/api/year', controller.redirectToYearSchedulePage);
 router.get('/admin', controller.renderAdminPage);
-router.post('/api/reschedule_classes', controller.addRescheduleClass);
+router.post('/api/add_reschedule_class', controller.addRescheduleClass);
+router.post('/api/delete_reschedule_class', controller.deleteRescheduleClass);
 
 module.exports = router;

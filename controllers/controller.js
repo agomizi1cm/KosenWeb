@@ -142,6 +142,22 @@ exports.renderAdminPage = (req, res) => {
 exports.addRescheduleClass = (req, res) => {
     try {
         const { date, koma, subjectCode } = req.body;
+        if (!date || !koma || !subjectCode) {
+            return res.status(400).json({ error: 'Missing required parameters' });
+        }
+
+        const selectedDate = new Date(date);
+        const dayOfWeek = selectedDate.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            return res.status(400).json({ error: '授業変更は平日にのみ設定可能です。' });
+        }
+
+        const checkStmt = db.prepare('SELECT * FROM rescheduled_classes WHERE date = ? AND koma = ?');
+        const existing = checkStmt.get(date, koma);
+        if (existing) {
+            return res.status(409).json({ error: '指定された日時には既に授業変更が存在します。' });
+        }
+
         const stmt = db.prepare('INSERT INTO rescheduled_classes (date, koma, subject_code) VALUES (?, ?, ?)');
         stmt.run(date, koma, subjectCode);
 
@@ -149,5 +165,21 @@ exports.addRescheduleClass = (req, res) => {
     } catch (error) {
         console.error('Error adding reschedule class:', error);
         res.status(500).json({ error: '授業変更の追加中にエラーが発生しました。' });
+    }
+}
+
+// API to delete reschedule class
+exports.deleteRescheduleClass = (req, res) => {
+    try {
+        const { date, koma } = req.body;
+        if (!date || !koma) {
+            return res.status(400).json({ error: 'Missing required parameters' });
+        }
+        const stmt = db.prepare('DELETE FROM rescheduled_classes WHERE date = ? AND koma = ?');
+        stmt.run(date, koma);
+        res.status(200).json({ message: '授業変更が正常に削除されました。' });
+    } catch (error) {
+        console.error('Error deleting reschedule class:', error);
+        res.status(500).json({ error: '授業変更の削除中にエラーが発生しました。' });
     }
 }
